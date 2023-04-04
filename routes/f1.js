@@ -1,21 +1,31 @@
-const https = require('https');
 const express = require('express');
 const router = express.Router();
-
-const db = require('/services/db');
-
-db.connect();
+const db = require('../services/db');
 
 // Define routes for /api/f1
-router.get('/', (req, res) => {
-  jsonFormat = JSON.stringify(test);
-  res.send(jsonFormat);
-});
+router.get('/:driver', (req, res) => {
+  const driver = req.params.driver;
   
-  // get year
-  router.get('/:year', (req, res) => {
-    const year = req.params.year;
-    res.send(`year: ${year}`);
+  if (!driver) {
+    res.status(400).send('Driver parameter missing');
+    return;
+  }
+
+  const query = ''+
+  'SELECT * '+
+  'FROM drivers '+
+  'JOIN driverstandings ON drivers.driverId = driverstandings.driverId '+
+  'WHERE drivers.driverId ='+driver+' ';
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error('Error executing query:', error);
+      res.status(500).send('Error executing query');
+    } else {
+      console.log('Query results:', results);
+      res.send(results);
+    }
+
   });
+});
 
 module.exports = router;

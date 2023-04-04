@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
-  });
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  database: process.env.DB_NAME,
+});
 
 function connect() {
   connection.connect((error) => {
@@ -17,7 +17,19 @@ function connect() {
   });
 }
 
+function query(queryString, callback) {
+  connection.query(queryString, (error, results, fields) => {
+    if (error) {
+      console.error('Error executing query:', error);
+      callback(error, null);
+    } else {
+      console.log('Query results:', results);
+      callback(null, results);
+    }
+  });
+}
+
 module.exports = {
   connect,
-  connection,
+  query,
 };
