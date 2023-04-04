@@ -2,8 +2,11 @@ const https = require('https');
 const express = require('express');
 const router = express.Router();
 
+const db = require('/services/db');
+
+db.connect();
+
 // Define routes for /api/f1
-// GET /api/users
 router.get('/', (req, res) => {
   jsonFormat = JSON.stringify(test);
   res.send(jsonFormat);

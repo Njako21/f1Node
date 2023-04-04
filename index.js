@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -9,13 +10,6 @@ app.use(bodyParser.json());
 
 const f1Routes = require('./routes/f1');
 app.use('/api/f1', f1Routes);
-
-app.use(express.static('public'));
-app.use(express.static('public', { maxAge: 0 }));
-
-app.get('/', (req, res) => {
-  res.sendFile('files/index.html', { root: __dirname });
-});
 
 
 
