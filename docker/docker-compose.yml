@@ -17,8 +17,8 @@ services:
     image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: db
-      PMA_USER: myuser
-      PMA_PASSWORD: mypassword
+      PMA_USER: root
+      PMA_PASSWORD: password
       PMA_ARBITRARY: 1
     ports:
       - "8080:80"
