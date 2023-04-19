@@ -18,18 +18,21 @@ router.get('/year/:year', (req, res) => {
   'JOIN drivers d ON ds.driverId = d.driverId ' + 
   "WHERE r.Year = " + Number(year) + "";
 
+  console.log("start");
+
   db.query(query, (error, results) => {
     if (error) {
       console.error('Error executing query:', error);
       res.status(500).send('Error executing query');
     } else {
+      console.log("query done and results gotten");
       const drivers = results.map((result) => {
         return {
           position: result.position,
           name: result.forename + ' ' + result.surname,
         };
       });
-
+      console.log("loop one");
       for (let i = 0; i < drivers.length; i++) {
         for (let j = i + 1; j < drivers.length; j++) {
           if (drivers[i].name === drivers[j].name) {
@@ -52,7 +55,7 @@ router.get('/year/:year', (req, res) => {
         9: 2,
         10: 1,
       };
-
+      console.log("loop two");
       for (let i = 0; i < drivers.length; i++) {
         const positions = drivers[i].position.split(', ');
         let points = 0;
@@ -63,8 +66,7 @@ router.get('/year/:year', (req, res) => {
         }
         drivers[i].points = points;
       }
-
-      console.log('Query results:', drivers);
+      console.log("sending");
       res.send(drivers);
     }
 
@@ -92,7 +94,6 @@ router.get('/:driver', (req, res) => {
       console.error('Error executing query:', error);
       res.status(500).send('Error executing query');
     } else {
-      console.log('Query results:', results);
       res.send(results);
     }
 
