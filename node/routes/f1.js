@@ -18,7 +18,7 @@ router.get('/year/:year', (req, res) => {
   'JOIN drivers d ON ds.driverId = d.driverId ' + 
   "WHERE r.Year = " + Number(year) + "";
 
-  console.log("start");
+  console.log(query);
 
   db.query(query, (error, results) => {
     if (error) {
