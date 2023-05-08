@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const f1Logic = require('../logic/f1Logic');
 const db = require('../services/db');
 
 //Define routes for /api/f1
@@ -97,6 +98,40 @@ router.get('/:driver', (req, res) => {
       res.send(results);
     }
 
+  });
+});
+
+//the routes we are working on for the project
+//         |
+//         |
+//        \ /
+//         V
+
+// route /api/f1/:year
+// example /api/f1/2022
+router.get('/:year/races', (req, res) => {
+  const year = req.params.year;
+  f1Logic.yearRaces(year, (error, result) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+// route /api/f1/:year/:grand_prix
+// example /api/f1/2022/Bahrain_Grand_Prix
+router.get('/:year/:grand_prix', (req, res) => {
+  const year = req.params.year;
+  const grand_prix = req.params.grand_prix;
+
+  f1Logic.grandPrix(year, grand_prix, (error, result) => {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.send(result);
+    }
   });
 });
 

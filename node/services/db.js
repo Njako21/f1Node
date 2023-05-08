@@ -9,13 +9,14 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
   connectTimeout: 5000,
 });
-console.log('process.env.DB_HOST', process.env.DB_NAME);
-function connect() {
+function connect(callback) {
   connection.connect((error) => {
     if (error) {
       console.error('Error connecting to database:', error);
+      callback(error);
     } else {
       console.log('Connected to database');
+      callback(null);
     }
   });
 }
@@ -23,7 +24,7 @@ function connect() {
 function query(queryString, callback) {
   connection.query(queryString, (error, results, fields) => {
     if (error) {
-      console.error('Error executing query:', error);
+      console.error('Error executing query:');
       callback(error, null);
     } else {
       callback(null, results);
