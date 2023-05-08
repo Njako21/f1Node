@@ -22,4 +22,28 @@ function yearRaces(year) {
     });
 }
 
-module.exports = yearRaces;
+function grandPrix(year) {
+    return new Promise((resolve, reject) => {
+        if (!year) {
+            reject('year parameter missing');
+        }
+
+        if (year >= 2024 || year <= 1950) {
+            resolve(format(year, "", "races"));
+        }
+
+        fs.readFile(__dirname + '/../resources/2021GrandPrix.txt', 'utf8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                const file = JSON.parse(data);
+                resolve(file);
+            }
+        });
+    });
+}
+
+module.exports = {
+    yearRaces: yearRaces,
+    grandPrix: grandPrix
+  };
