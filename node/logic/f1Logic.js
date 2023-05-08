@@ -10,7 +10,7 @@ function yearRaces(year, callback) {
     return callback('Year parameter missing');
   }
 
-  const query = 'SELECT name, date FROM races WHERE year = '+year+';';
+  const query = `SELECT name, date FROM races WHERE year = ${year};`;
   db.query(query, (error, results) => {
     if (error) {
       console.error('Error executing query:', error);
@@ -29,14 +29,16 @@ function grandPrix(year, grand_prix, callback){
         return callback('Year parameter missing');
     }
     grand_prix = grand_prix.replace(/_/g, ' ');
-    const query = ''
-    +   'SELECT drivers.code, drivers.forename, drivers.surname, results.positionText, results.positionOrder, results.grid, status.status '+
-        'FROM races '+
-        'INNER JOIN results ON races.raceId = results.raceId '+
-        'INNER JOIN drivers ON results.driverId = drivers.driverId '+
-        'INNER JOIN status ON results.statusId = status.statusId '+
-        'WHERE races.year = '+year+' AND races.name = "'+grand_prix+'" '+
-        'ORDER BY results.positionOrder ASC;'
+    
+    const query = `
+        SELECT drivers.code, drivers.forename, drivers.surname, results.positionText, results.positionOrder, results.grid, status.status 
+        FROM races 
+        INNER JOIN results ON races.raceId = results.raceId 
+        INNER JOIN drivers ON results.driverId = drivers.driverId 
+        INNER JOIN status ON results.statusId = status.statusId 
+        WHERE races.year = ${year} AND races.name = "${grand_prix}" 
+        ORDER BY results.positionOrder ASC;`;
+    
     db.query(query, (error, results) => {
         if (error) {
           console.error('Error executing query:', error);
