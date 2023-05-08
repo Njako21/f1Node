@@ -1,9 +1,5 @@
 version: '3.9'
 
-networks:
-  mynetwork:
-    driver: bridge
-
 services:
   db:
     image: mysql:5.7
@@ -15,8 +11,6 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql-data:/var/lib/mysql
-    networks:
-      - mynetwork
         
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -29,5 +23,3 @@ services:
       - "8080:80"
     depends_on:
       - db
-    networks:
-      - mynetwork
