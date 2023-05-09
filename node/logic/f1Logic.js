@@ -144,21 +144,98 @@ function driver(driver, callback){
     JOIN status s ON s.statusId = r.statusId
     WHERE d.forename = "${firstName}" AND d.surname = "${lastName}"
     `;
+
+    let finishes = [];
     db.query(query, (error, results) => {
         if (error) {
             console.error('Error executing query:', error);
             return callback('Error executing query');
         } else {
+            for (let i = 0; i < results.length; i++) {
+                finishes.push(results[i].positionOrder);
+            }
+            results.push(finishes);
             return callback(null, format(0000, results, `Driver ${driver}`));
+        }
+    });
+}
+
+/* Queries the database for the years a given driver was active and returns the formatted result
+    route /api/f1/driver/:driver/active
+    example /api/f1/driver/Max_Verstappen/active
+*/
+
+function yearsActive(driver, callback){
+    if (!driver) {
+        return callback('driver parameter missing');
+    }
+    firstName = driver.split("_")[0];
+    lastName = driver.split("_")[1];
+    const query = `
+    SELECT DISTINCT year 
+    FROM races 
+    JOIN results ON results.raceId = races.raceId 
+    JOIN drivers ON drivers.driverId = results.driverId 
+    WHERE drivers.forename = '${firstName}' AND drivers.surname = '${lastName}';
+    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            return callback('Error executing query');
+        } else {
+            return callback(null, format(0000, results, `Driver ${driver} years active`));
+        }
+    });
+}
+
+/* Queries the database for the points systems and returns the formatted result
+    route /api/f1/pointsSystems
+    example /api/f1/pointsSystems
+*/
+
+function pointsSystems(callback){
+    const query = `
+    SELECT * FROM pointsystem;
+    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            return callback('Error executing query');
+        } else {
+            return callback(null, format(0000, results, `Points Systems`));
+        }
+    });
+}
+
+/* Queries the database for the points systems and returns the formatted result
+    route /api/f1/pointsSystem/:pointsSystem
+    example /api/f1/pointsSystem/1
+*/
+
+function pointsSystemWValue(pointsSystem, callback){
+    const query = `
+    SELECT p.*, (SELECT timePeriode FROM pointsystem WHERE pointSystemId = ${pointsSystem}) as timePeriode
+    FROM points p
+    WHERE p.pointSystemId = ${pointsSystem}
+    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            return callback('Error executing query');
+        } else {
+            return callback(null, format(results[0].timePeriode, results, `Points System ${pointsSystem}`));
         }
     });
 }
 
 
 module.exports = {
-  yearRaces: yearRaces,
-  grandPrix: grandPrix,
-  yearDriver: yearDriver,
-  yearDrivers: yearDrivers,
-  driver: driver,
+  yearRaces:            yearRaces,
+  grandPrix:            grandPrix,
+  yearDriver:           yearDriver,
+  yearDrivers:          yearDrivers,
+  driver:               driver,
+  yearsActive:          yearsActive,
+  pointsSystems:        pointsSystems,
+  pointsSystemWValue:   pointsSystemWValue,
 };

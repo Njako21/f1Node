@@ -5,10 +5,19 @@ Route: /api/f1/year/:year/grand_prix/:grand_prix
 Example: /api/f1/year/2022/grand_prix/Bahrain_Grand_Prix
 
 Route: /api/f1/year/:year/driver/:driver
-Example: /api/f1/year/2022/driver/lewis_hamilton
+Example: /api/f1/year/2022/driver/Lewis_Hamilton
 
 Route: /api/f1/year/:year/drivers
 Example: /api/f1/year/2022/drivers
 
 Route: /api/f1/driver/:driver
 Example: /api/f1/driver/Lewis_Hamilton
+
+Route: /api/f1/driver/:driver/active
+Example: /api/f1/driver/Lewis_Hamilton/active
+
+Route: /api/f1/pointsSystems
+Example: /api/f1/pointsSystems
+
+Route: /api/f1/pointsSystems/:pointsSystem
+Example: /api/f1/pointsSystems/1

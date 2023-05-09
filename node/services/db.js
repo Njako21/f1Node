@@ -1,6 +1,8 @@
+// Importing mysql and express libraries
 const mysql = require('mysql');
 const express = require('express');
 
+// Creating a MySQL database connection object with credentials from environment variables
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -9,6 +11,8 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
   connectTimeout: 5000,
 });
+
+// Function to connect to the database using the credentials specified in the connection object
 function connect(callback) {
   connection.connect((error) => {
     if (error) {
@@ -21,6 +25,7 @@ function connect(callback) {
   });
 }
 
+// Function to execute a query on the database using the connection object
 function query(queryString, callback) {
   connection.query(queryString, (error, results, fields) => {
     if (error) {
@@ -32,7 +37,7 @@ function query(queryString, callback) {
   });
 }
 
-
+// Exporting the connection and query functions for use in other modules
 module.exports = {
   connect,
   query,
