@@ -1,16 +1,19 @@
+// This component calculates the average difference between a drivers starting- and finishing position for each race in a user selected season and displays a graf for it.
 import React, { useState, useEffect } from 'react';
 import BarChart from './BarChart';
 
-const ExampleComponent = () => {
+const ChaosEffect = () => {
   const [year, setYear] = useState('');
   const [races, setRaces] = useState([]);
   const [raceResults, setRaceResults] = useState({});
   const [seasonAverage, setSeasonAverage] = useState(null);
 
+  //Calculates the season average
   useEffect(() => {
     calculateSeasonAverage();
   }, [raceResults]);
 
+  // Calls the backend for a list of races in a given season
   const fetchRacesData = async () => {
     try {
       const response = await fetch(`http://localhost:3001/api/f1/year/${year}/races`);
@@ -23,6 +26,7 @@ const ExampleComponent = () => {
     }
   };
 
+  // Calls the backend for the resultlist for a specific race, filters the results to only include drivers who finished the race, and calls the calculate average difference function below.
   const fetchRaceResultsData = async (raceName) => {
     try {
       const formattedRaceName = raceName.replace(/ /g, '_');
@@ -40,6 +44,7 @@ const ExampleComponent = () => {
     }
   };
 
+  // Takes a list of drivers and their results from a race and calculates the average difference between their starting position and finishing position.
   const calculateAverageDifference = (driverData) => {
     const totalDifference = driverData.reduce((sum, driver) => {
       const positionDifference = Math.abs(driver.positionOrder - driver.grid);
@@ -48,12 +53,14 @@ const ExampleComponent = () => {
     return (totalDifference / driverData.length).toFixed(1);
   };
 
+  // Calls the function to fetch race data etc. for each race in a given season.
   const calculateRaceResults = (raceList) => {
     raceList.forEach((race) => {
       fetchRaceResultsData(race.name);
     });
   };
 
+  // Calculates the season average
   const calculateSeasonAverage = () => {
     const raceResultValues = Object.values(raceResults);
     if (raceResultValues.length > 0) {
@@ -63,15 +70,18 @@ const ExampleComponent = () => {
     }
   };
 
+  // handles event for input field
   const handleYearChange = (e) => {
     setYear(e.target.value);
   };
 
+  // handles submit
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchRacesData();
   };
 
+  // maps data to the required graph format
   const chaosData = {
     labels: Object.entries(raceResults).map(([raceName]) => raceName),
     datasets: [{
@@ -87,13 +97,6 @@ const ExampleComponent = () => {
         <input type="number" value={year} onChange={handleYearChange} placeholder="Enter year" />
         <button type="submit">Submit</button>
       </form>
-      <ul>
-        {races.map((race) => (
-          <li key={race.name}>
-            {race.name}: {raceResults[race.name] ? raceResults[race.name] : 'Calculating...'}
-          </li>
-        ))}
-      </ul>
       {seasonAverage && <p>Season Average: {seasonAverage}</p>}
       <BarChart 
       chartData={chaosData}
@@ -102,4 +105,4 @@ const ExampleComponent = () => {
   );
 };
 
-export default ExampleComponent;
+export default ChaosEffect;
