@@ -1,6 +1,5 @@
 // Importing mysql and express libraries
 const mysql = require('mysql');
-const express = require('express');
 
 // Creating a MySQL database connection object with credentials from environment variables
 const connection = mysql.createConnection({

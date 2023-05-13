@@ -32,6 +32,7 @@ try {
     // If the connection is successful, add the F1 routes to the application
     const f1Routes = require('./routes/f1');
     app.use('/api/f1', f1Routes);
+    const rename = require('./services/rename.js'); // Import rename module
   });
 } catch (e) {
   console.log("could not connect to db");

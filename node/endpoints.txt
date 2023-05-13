@@ -21,3 +21,6 @@ Example: /api/f1/pointsSystems
 
 Route: /api/f1/pointsSystems/:pointsSystem
 Example: /api/f1/pointsSystems/1
+
+make routes
+/reconnect to db

@@ -92,6 +92,7 @@ function handlePointsSystemRequest(req, res) {
 }
 
 
+
 // helper function to handle the response from the logic layer
 function handler(res, error, result) {
   if (error) {

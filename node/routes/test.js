@@ -27,6 +27,4 @@ router.get('/:year/:grand_prix', async (req, res) => {
     }
 });
 
-
-
 module.exports = router;
