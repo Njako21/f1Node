@@ -92,12 +92,16 @@ const ChaosEffect = () => {
 
   return (
     <div>
-      <h1>Races</h1>
+      <h1>Chaos effect!</h1>
+      <p>*Chaos: The average difference between starting and finishing position for drivers who finished the race.</p>
+      <p>Useful for indicating the amount of action, overtaking and overall chaos in a race.</p>
+      <h2>Enter a year:</h2>
       <form onSubmit={handleSubmit}>
         <input type="number" value={year} onChange={handleYearChange} placeholder="Enter year" />
         <button type="submit">Submit</button>
       </form>
       {seasonAverage && <p>Season Average: {seasonAverage}</p>}
+      <h2>Races</h2>
       <BarChart 
       chartData={chaosData}
       />
