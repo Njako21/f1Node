@@ -119,6 +119,7 @@ const PointsCalculator = () => {
             <h1>Career point calculator</h1>
             <p>Shows the career points for a driver cumulated.</p>
             <p>Capitalise first letters, replace spaces with underscores.</p>
+	    <p>Example: Max_Verstappen</p>
 
             <input
                 type="text"
