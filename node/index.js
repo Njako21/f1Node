@@ -32,7 +32,9 @@ try {
     // If the connection is successful, add the F1 routes to the application
     const f1Routes = require('./routes/f1');
     app.use('/api/f1', f1Routes);
-    const rename = require('./services/rename.js'); // Import rename module
+
+    console.log("server is ready to recieve requests")
+    console.log("use /api/f1 route for f1 data")
   });
 } catch (e) {
   console.log("could not connect to db");
@@ -43,7 +45,6 @@ try {
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
 // Add test routes to the application
 const testRoutes = require('./routes/test');
 app.use('/test/f1', testRoutes);
