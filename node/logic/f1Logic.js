@@ -226,6 +226,10 @@ function pointsSystemWValue(pointsSystem, callback){
     });
 }
 
+/* Queries the database for the points systems and returns the formatted result
+    route /api/f1/all/PointsSystems
+    example /api/f1/all/PointsSystems
+*/
 function allPointsSystems(callback){
     const query = `
     SELECT ps.*, p.position, p.points
@@ -242,9 +246,22 @@ function allPointsSystems(callback){
             let object = {};
             for (let i = 0; i < results.length; i++) {
                 let timePeriode = results[i].timePeriode;
-                if (timePeriode != lastTimePeriode) {
-                    timePeriodes[lastTimePeriode] = object;
+                
+                if (timePeriode != lastTimePeriode || i == results.length-1) {
+                    let first = lastTimePeriode.split("-")[0];
+                    let last = lastTimePeriode.split("-")[1];
+                    let years = [];
+                    for (let i = first; i <= last; i++) {
+                        years.push(parseInt(i));
+                    }
+
+                    if (!lastTimePeriode.includes("-")) {
+                        years.push(parseInt(lastTimePeriode));
+                    }
+
+                    timePeriodes[years] = object;
                     object = {};
+                    
                     object[results[i].position] = results[i].points;
                     lastTimePeriode = timePeriode;
                 }else{
