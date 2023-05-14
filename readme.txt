@@ -4,6 +4,8 @@ how to start
 start-docker-containers.cmd
 when thats done
 start-backend.cmd
+when thats done
+start-frontend
 
 and the backend should be up and running
 
