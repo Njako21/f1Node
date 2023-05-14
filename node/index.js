@@ -35,6 +35,7 @@ try {
 
     console.log("server is ready to recieve requests")
     console.log("use /api/f1 route for f1 data")
+    const updater = require('./services/raceUpdater.js');
   });
 } catch (e) {
   console.log("could not connect to db");

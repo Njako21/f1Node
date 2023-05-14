@@ -1,7 +1,5 @@
 const db = require('../services/db');
 const format = require('../services/formatting');
-const fs = require('fs');
-const path = require('path');
 
 /*  note to self: the callback function is the function that is passed into the function as a parameter
     the callback function is then called in the function
@@ -228,6 +226,37 @@ function pointsSystemWValue(pointsSystem, callback){
     });
 }
 
+function allPointsSystems(callback){
+    const query = `
+    SELECT ps.*, p.position, p.points
+    FROM pointsystem ps
+    JOIN points p ON p.pointSystemId = ps.pointSystemId;
+    `;
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('Error executing query:', error);
+            return callback('Error executing query');
+        } else {
+            const timePeriodes = {};
+            let lastTimePeriode = results[0].timePeriode;
+            let object = {};
+            for (let i = 0; i < results.length; i++) {
+                let timePeriode = results[i].timePeriode;
+                if (timePeriode != lastTimePeriode) {
+                    timePeriodes[lastTimePeriode] = object;
+                    object = {};
+                    object[results[i].position] = results[i].points;
+                    lastTimePeriode = timePeriode;
+                }else{
+                    object[results[i].position] = results[i].points;
+                }
+            }
+
+            return callback(null, format(`${results[0].timePeriode} - ${results[results.length-1].timePeriode}`, timePeriodes, `all points Systems`));
+        }
+    });
+}
+
 
 module.exports = {
   yearRaces:            yearRaces,
@@ -238,4 +267,5 @@ module.exports = {
   yearsActive:          yearsActive,
   pointsSystems:        pointsSystems,
   pointsSystemWValue:   pointsSystemWValue,
+  allPointsSystems:     allPointsSystems
 };

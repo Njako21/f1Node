@@ -91,6 +91,15 @@ function handlePointsSystemRequest(req, res) {
   f1Logic.pointsSystemWValue(pointsSystem, handler.bind(null, res));
 }
 
+// route    /api/f1/all/pointsSystems
+// example  /api/f1/all/pointsSystems
+router.get('/all/pointsSystems', handleAllPointsSystemsRequest);
+
+function handleAllPointsSystemsRequest(req, res) {
+  f1Logic.allPointsSystems(handler.bind(null, res));
+}
+
+
 
 
 // helper function to handle the response from the logic layer

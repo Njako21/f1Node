@@ -19,7 +19,7 @@ function connect(callback) {
       callback(error);
     } else {
       console.log('Connected to database');
-      rename = require('../services/rename.js'); // Import rename module
+      rename = require('./raceUpdater.js'); // Import rename module
       callback(null);
     }
   });

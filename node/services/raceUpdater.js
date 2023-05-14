@@ -1,5 +1,5 @@
-const htmlSorter = require('../services/htmlSorter');
-const db = require('../services/db');
+const htmlSorter = require('./htmlSorter');
+const db = require('./db');
 
 //this file is used is the entrypoint for updating the database
 //it is called from index.js
