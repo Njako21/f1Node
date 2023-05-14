@@ -248,6 +248,8 @@ function allPointsSystems(callback){
                 let timePeriode = results[i].timePeriode;
                 
                 if (timePeriode != lastTimePeriode || i == results.length-1) {
+                    object[results[i].position] = results[i].points;
+
                     let first = lastTimePeriode.split("-")[0];
                     let last = lastTimePeriode.split("-")[1];
                     let years = [];
