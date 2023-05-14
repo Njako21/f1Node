@@ -2,3 +2,4 @@ docker/mysql-data/auto.cnf
 docker/mysql-data/binlog.index
 docker/mysql-data/ib_buffer_pool
 docker/mysql-data/mysql.sock
+node/.vs
